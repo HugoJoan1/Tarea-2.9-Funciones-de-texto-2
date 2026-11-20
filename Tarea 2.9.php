@@ -13,13 +13,59 @@
         <label for="Nombre">Nombre completo:</label>
         <textarea type="text" step="any" name="Nombre" required></textarea>
         <br>
-        <label for="Nombre">Fecha de Nacimiento:</label>
-        <textarea type="text" step="any" name="Nombre" required></textarea>
+        <label for="Fecha">Fecha de Nacimiento:</label>
+        <textarea type="text" step="any" name="Fecha" required></textarea>
         <br></br>
         <button type="submit" name="clave">Sacar clave</button>
     </form>
 
+    <?php
+    
+    if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['clave'])){
+    
+    
+     function obtenerIniciales($nombre){
+        $iniciales = substr($nombre, 0, 3);
+        $iniciales = strtoupper($iniciales);
+        return $iniciales;
+    }
 
+    function ObtenerAño($fecha){
+        $año = substr($fecha, 2, 2);
+        return $año;
+    }
+
+    function MesDia($fecha){
+        $mesdia = substr($fecha, 5, 2);
+        $mesdia .= substr($fecha, 8, 2);
+        return $mesdia;
+    }
+
+    function GenerarClave($iniciales, $año, $mesdia){
+        $clave = $iniciales . $año . $mesdia;
+        return $clave;
+    }
+
+    $nombre = $_POST['Nombre'];
+    $nombre = trim($nombre);
+
+    $fecha = $_POST['Fecha'];
+
+
+    $iniciales = obtenerIniciales($nombre);
+    $año = ObtenerAño($fecha);
+    $mesdia = MesDia($fecha);
+    $clave = GenerarClave($iniciales, $año, $mesdia);
+
+    echo "<br> Su clave es: " . $clave;
+    
+    }
+    
+    
+    
+    
+    
+    ?>
 
 </body>
 </html>
