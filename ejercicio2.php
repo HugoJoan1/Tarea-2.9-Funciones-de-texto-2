@@ -25,5 +25,60 @@
         <label for="ingreso">Fecha de ingreso:</label>
         <textarea type="text" step="any" name="ingreso" required></textarea>
         <br></br>
-        <button type="submit" name="clave">Sacar clave</button>
+        <button type="submit" name="usuario">Sacar nombre de usuario</button>
+
+        <?php
+    
+    if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['usuario'])){
+    
+    
+     function limpiarNombre($nombre){
+        $usuario = trim($nombre);
+        $usuario = str_replace(" ", "", $usuario);
+        return $usuario;
+    }
+
+    function ConvertirMinusculas($usuario){
+        $usuario = strtolower($usuario);
+        return $usuario;
+    }
+
+    function ObtenerInstitucion($institucion){
+       $iniciales = substr($institucion, 0, 1);
+       $iniciales = strtolower($iniciales);
+       return $iniciales;
+    }
+
+    function ObtenerAño($ingreso){
+        $año = substr($ingreso, 2, 2);
+        return $año;
+    }
+
+    function generarUsuario($usuario, $iniciales, $año){
+        $usuario = $usuario . $iniciales . $año;
+        return $usuario;
+    }
+
+
+    $nombre = $_POST['Nombre'];
+    $institucion = $_POST['institucion'];
+    $ingreso = $_POST['ingreso'];
+
+
+    $usuario = limpiarNombre($nombre);
+    $usuario = ConvertirMinusculas($usuario);
+    $iniciales = ObtenerInstitucion($institucion);
+    $año = ObtenerAño($ingreso);
+    $usuario = generarUsuario($usuario, $iniciales, $año);
+
+    echo "<br><br><strong> Su clave es: " . $usuario;
+    
+    }
+    
+    
+    
+    
+    
+    ?>
+
     </form>
